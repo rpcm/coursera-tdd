@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+ 						   http://www.springframework.org/schema/beans/spring-beans.xsd  
+   						   http://www.springframework.org/schema/context
+   						   http://www.springframework.org/schema/context/spring-context.xsd
+   						   http://www.springframework.org/schema/data/mongo
+          				   http://www.springframework.org/schema/data/mongo/spring-mongo.xsd">
+
+	<!-- Enable Annotation Driven Configuration -->
+	<context:annotation-config />
+	
+	<!-- Component Scan Packages for Annotation Driven Configuration -->
+	<context:component-scan base-package="pt.rmonteiro.gamification" />
+
+	<!-- Properties for MongoDB configuration -->
+	<context:property-placeholder location="classpath:database.properties" />
+
+	<!-- Configure MongoDB database -->
+	<mongo:mongo id="mongo" host="${mongo.host}" port="${mongo.port}" />
+
+	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg ref="mongo" />
+		<constructor-arg name="databaseName" value="${mongo.dbname}" />
+	</bean>
+
+</beans>
