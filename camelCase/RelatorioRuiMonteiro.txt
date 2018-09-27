@@ -1,0 +1,633 @@
+1º passo:
+Criada a classe CamelCaseTest com o teste testEmptyInputString:
+	/**
+	 * Unit test for {@link CamelCase}.
+	 * 
+	 * @author ruimonteiro
+	 */
+	public class CamelCaseTest  extends TestCase {
+
+	    /**	
+	     * Test empty input string
+	     */
+	    public void testEmptyInputString() {
+	        final List<String> result = CamelCase.converterCamelCase("");
+	        assertTrue(result.isEmpty());
+	    }
+	} 
+
+2º passo:
+Criada a classe CamelCase para o teste compilar:
+	/**
+	 * Week 1 exercise of TDD course. 
+	 * 
+	 * @see https://www.coursera.org/learn/tdd-desenvolvimento-de-software-guiado-por-testes/peer/Hgrqt/quebra-de-strings-com-camelcase
+	 * 
+	 * @author ruimonteiro
+	 */
+	public class CamelCase {
+
+	}
+
+3º passo:
+Criado o método converterCamelCase para o teste compilar:
+	/**
+	 * Week 1 exercise of TDD course. 
+	 * 
+	 * @see https://www.coursera.org/learn/tdd-desenvolvimento-de-software-guiado-por-testes/peer/Hgrqt/quebra-de-strings-com-camelcase
+	 * 
+	 * @author ruimonteiro
+	 */
+	public class CamelCase {
+
+		/**
+		 * @param original the input word
+		 * @return a list of words as the result of splitting the input word by CamelCase
+		 */
+		public static List<String> converterCamelCase(String original) {
+			return null;
+		}
+
+	}
+
+4º passo:
+Corrido o test junit e verificado que falhou
+
+5º passo:
+Refactorizado o método converterCamelCase (retornar lista vazia se a string for vazia) de forma a que o teste passe:
+	public static List<String> converterCamelCase(String original) {
+		if(original.isEmpty()) {
+			return new ArrayList<>();
+		}
+		
+		return null;
+	}
+
+
+6º passo:
+Corrido o teste e verificado que passou
+
+7º passo:
+Adicionado o teste testNullInputString:	    
+    /**
+     * Test null input string
+     */
+    public void testNullInputString() {
+        final List<String> result = CamelCase.converterCamelCase(null);
+        assertTrue(result.isEmpty());
+    }
+
+8º passo:
+Corrido o test junit e verificado que falhou
+
+9º passo:
+Refactorizado o método converterCamelCase (retornar lista vazia se a string for null) de forma a que o teste passe:
+	public static List<String> converterCamelCase(String original) {
+		if(original == null || original.isEmpty()) {
+			return new ArrayList<>();
+		}
+		
+		return null;
+	}
+
+10º passo:
+Corrido o teste e verificado que passou
+
+11º passo:
+Adicionado o teste testSpaceInputString:    
+    /**
+     * Test space input string
+     */
+    public void testSpaceInputString() {
+        final List<String> result = CamelCase.converterCamelCase(" ");
+        assertTrue(result.isEmpty());
+    }
+
+12º passo:
+Corrido o test junit e verificado que falhou
+
+13º passo:
+Refactorizado o método converterCamelCase (retornar lista vazia se a string tiver só espaços) de forma a que o teste passe:
+	public static List<String> converterCamelCase(String original) {
+		if(original == null || original.isEmpty() || original.trim().isEmpty()) {
+			return new ArrayList<>();
+		}
+		
+		return null;
+	}
+
+14º passo:
+Corrido o teste e verificado que passou
+
+15º passo:
+Adicionado o teste testInputStringStartsWithNumbers:
+    /**
+     * Test input string starts with numbers
+     */
+    public void testInputStringStartsWithNumbers() {
+    	try {
+    		CamelCase.converterCamelCase("10Primeiros");
+    		fail();
+		} catch (InvalidInputFormat ex) {
+			assertEquals(CamelCase.START_WITH_NUMBERS_MESSAGE_ERROR, ex.getMessage());
+		}
+    }
+
+16º passo:
+Criada a execeção InvalidInputFormat para o teste compilar:
+	/**
+	 * Thrown to indicate an invalid input format
+	 * 
+	 * @author ruimonteiro
+	 */
+	public class InvalidInputFormat extends RuntimeException {
+	
+		private static final long serialVersionUID = 1L;
+	
+		/**
+		 * Var-arg constructor
+		 * 
+		 * @param message the error message
+		 */
+		public InvalidInputFormat(String message) {
+	        super(message);
+	    }
+	}
+
+17º passo:
+Criada a constante START_WITH_NUMBERS_MESSAGE_ERROR para o teste compilar:
+	/**
+	 * Week 1 exercise of TDD course. 
+	 * 
+	 * @see https://www.coursera.org/learn/tdd-desenvolvimento-de-software-guiado-por-testes/peer/Hgrqt/quebra-de-strings-com-camelcase
+	 * 
+	 * @author ruimonteiro
+	 */
+	public class CamelCase {
+		
+		static final String START_WITH_NUMBERS_MESSAGE_ERROR = "não deve começar com números";
+
+		...
+	}
+
+18º passo:
+Corrido o test junit e verificado que falhou
+
+19º passo:
+Refactorizado o código (alterado o método converterCamelCase que chama um novo método validateInputFormat que valida se string começa por números.
+Se sim retorna uma exceção) de forma a que o teste passe:
+	/**
+	 * Week 1 exercise of TDD course. 
+	 * 
+	 * @see https://www.coursera.org/learn/tdd-desenvolvimento-de-software-guiado-por-testes/peer/Hgrqt/quebra-de-strings-com-camelcase
+	 * 
+	 * @author ruimonteiro
+	 */
+	public class CamelCase {
+	
+		private static final String START_WITH_NUMBERS_REGEX = "^[0-9].*$";
+		static final String START_WITH_NUMBERS_MESSAGE_ERROR = "não deve começar com números";
+
+		/**
+		 * @param original the input word
+		 * @return a list of words as the result of splitting the input word by CamelCase
+		 */
+		public static List<String> converterCamelCase(String original) {
+			if(original == null || original.isEmpty() || original.trim().isEmpty()) {
+				return new ArrayList<>();
+			}
+			
+			validateInputFormat(original);
+			
+			return null;
+		}	
+		
+		/**
+		 * Validates the input word
+		 * 
+		 * @param input the input
+		 */
+		private static void validateInputFormat(final String input) {
+			if(input.matches(START_WITH_NUMBERS_REGEX)) {
+				throw new InvalidInputFormat(START_WITH_NUMBERS_MESSAGE_ERROR);
+			}
+		}
+
+	}
+
+20º passo:
+Corrido o teste e verificado que passou
+
+21º passo:
+Adicionado o teste testInputStringContainsSpecialCharacters:
+    /**
+     * Test input string contains special characters
+     */
+    public void testInputStringContainsSpecialCharacters() {
+    	try {
+    		CamelCase.converterCamelCase("nome#Composto");
+    		fail();
+		} catch (InvalidInputFormat ex) {
+			assertEquals(CamelCase.SPECIAL_CHARACTERS_MESSAGE_ERROR, ex.getMessage());
+		}
+    }
+
+22º passo:
+Criada a constante SPECIAL_CHARACTERS_MESSAGE_ERROR para o teste compilar:
+	
+	/**
+	 * Week 1 exercise of TDD course. 
+	 * 
+	 * @see https://www.coursera.org/learn/tdd-desenvolvimento-de-software-guiado-por-testes/peer/Hgrqt/quebra-de-strings-com-camelcase
+	 * 
+	 * @author ruimonteiro
+	 */
+	public class CamelCase {
+	
+	...
+
+	static final String SPECIAL_CHARACTERS_MESSAGE_ERROR = "caracteres especiais não são permitidos, somente letras e números";
+	
+	...
+}
+
+23º passo:
+Corrido o test junit e verificado que falhou
+
+24º passo:
+Refactorizado o código (alterado o método validateInputFormat para validar se existem caracteres especiais. Se sim retorna uma exeção)
+de forma a que o teste passe:
+	
+	/**
+	 * Week 1 exercise of TDD course. 
+	 * 
+	 * @see https://www.coursera.org/learn/tdd-desenvolvimento-de-software-guiado-por-testes/peer/Hgrqt/quebra-de-strings-com-camelcase
+	 * 
+	 * @author ruimonteiro
+	 */
+	public class CamelCase {
+		
+		private static final String START_WITH_NUMBERS_REGEX = "^[0-9].*$";
+		private static final String SPECIAL_CHARACTERS = "\\!\"#$%&()*+-,./:;<=>?@\\[\\]{|}~";
+		static final String START_WITH_NUMBERS_MESSAGE_ERROR = "não deve começar com números";
+		static final String SPECIAL_CHARACTERS_MESSAGE_ERROR = "caracteres especiais não são permitidos, somente letras e números";
+		
+		/**
+		 * @param original the input word
+		 * @return a list of words as the result of splitting the input word by CamelCase
+		 */
+		public static List<String> converterCamelCase(String original) {
+			if(original == null || original.isEmpty() || original.trim().isEmpty()) {
+				return new ArrayList<>();
+			}
+			
+			validateInputFormat(original);
+			
+			return null;
+		}
+		
+		/**
+		 * Validates the input word
+		 * 
+		 * @param input the input
+		 */
+		private static void validateInputFormat(final String input) {
+			if(input.matches(START_WITH_NUMBERS_REGEX)) {
+				throw new InvalidInputFormat(START_WITH_NUMBERS_MESSAGE_ERROR);
+			}
+			for (Character character : SPECIAL_CHARACTERS.toCharArray()) {
+				if(input.contains(character.toString())) {
+					throw new InvalidInputFormat(SPECIAL_CHARACTERS_MESSAGE_ERROR);
+				}
+			}
+		}
+	}
+
+25º passo:
+Corrido o teste e verificado que passou
+
+26º passo:
+Adicionado o teste testInputStringOneWord:
+    /**
+     * Test input string one word
+     */
+    public void testInputStringOneWord() {
+    	final String input = "nome";
+		final List<String> result = CamelCase.converterCamelCase(input);
+    	assertEquals(1,result.size());
+    	assertEquals(input, result.get(0));
+    }
+
+27º passo:
+Corrido o test junit e verificado que falhou
+
+28º passo:
+Refactorizado o código (alterado o método converterCamelCase para chamar o novo método getCamelCaseWords que retorna a a string original)  
+de forma a que o teste passe:
+	
+	/**
+	 * Week 1 exercise of TDD course. 
+	 * 
+	 * @see https://www.coursera.org/learn/tdd-desenvolvimento-de-software-guiado-por-testes/peer/Hgrqt/quebra-de-strings-com-camelcase
+	 * 
+	 * @author ruimonteiro
+	 */
+	public class CamelCase {
+		
+		private static final String START_WITH_NUMBERS_REGEX = "^[0-9].*$";
+		private static final String SPECIAL_CHARACTERS = "\\!\"#$%&()*+-,./:;<=>?@\\[\\]{|}~";
+		static final String START_WITH_NUMBERS_MESSAGE_ERROR = "não deve começar com números";
+		static final String SPECIAL_CHARACTERS_MESSAGE_ERROR = "caracteres especiais não são permitidos, somente letras e números";
+		
+		/**
+		 * @param original the input word
+		 * @return a list of words as the result of splitting the input word by CamelCase
+		 */
+		public static List<String> converterCamelCase(String original) {
+			if(original == null || original.isEmpty() || original.trim().isEmpty()) {
+				return new ArrayList<>();
+			}
+			validateInputFormat(original);
+			return getCamelCaseWords(original);
+		}
+		
+		/**
+		 * Validates the input word
+		 * 
+		 * @param input the input
+		 */
+		private static void validateInputFormat(final String input) {
+			if(input.matches(START_WITH_NUMBERS_REGEX)) {
+				throw new InvalidInputFormat(START_WITH_NUMBERS_MESSAGE_ERROR);
+			}
+			for (Character character : SPECIAL_CHARACTERS.toCharArray()) {
+				if(input.contains(character.toString())) {
+					throw new InvalidInputFormat(SPECIAL_CHARACTERS_MESSAGE_ERROR);
+				}
+			}
+		}
+		
+		/**
+		 * @param input the input word
+		 * @return  a list of words as the result of splitting the input word by CamelCase
+		 */
+		private static List<String> getCamelCaseWords(final String input) {
+			final List<String> result = new ArrayList<>();
+			result.add(input);
+			return result;
+		}
+	}
+
+29º passo:
+Corrido o teste e verificado que passou
+
+30º passo:
+Adicionado o teste testInputStringOneWordStartedByUpppercase:
+	/**
+	 * Test input string one word started by uppercase
+	 */
+	public void testInputStringOneWordStartedByUpppercase() {
+		final List<String> result = CamelCase.converterCamelCase("Nome");
+		assertEquals(1,result.size());
+		assertEquals("nome", result.get(0));
+	}
+
+31º passo:
+Corrido o test junit e verificado que falhou
+
+32º passo:
+Refactorizado o código (alterado o método getCamelCaseWords que retorna a string original em LowerCase)
+de forma a que o teste passe:
+	/**
+	 * Week 1 exercise of TDD course. 
+	 * 
+	 * @see https://www.coursera.org/learn/tdd-desenvolvimento-de-software-guiado-por-testes/peer/Hgrqt/quebra-de-strings-com-camelcase
+	 * 
+	 * @author ruimonteiro
+	 */
+	public class CamelCase {
+		
+		...
+		
+		/**
+		 * @param input the input word
+		 * @return  a list of words as the result of splitting the input word by CamelCase
+		 */
+		private static List<String> getCamelCaseWords(final String input) {
+			final List<String> result = new ArrayList<>();
+			result.add(input.toLowerCase());
+			return result;
+		}
+	}
+
+33º passo:
+Corrido o teste e verificado que passou
+
+34º passo:
+Adicionado o teste testInputStringOneWordInUppercase:
+	/**
+     * Test input string one word in uppercase
+     */
+    public void testInputStringOneWordInUppercase() {
+    	final String input = "CPF";
+		final List<String> result = CamelCase.converterCamelCase(input);
+    	assertEquals(1,result.size());
+    	assertEquals(input, result.get(0));
+    }
+
+35º passo:
+Corrido o test junit e verificado que falhou
+
+36º passo:
+Refactorizado o código (alterado o método getCamelCaseWords que retorna a string original em LowerCase se pelo menos um caracter estiver em Lowercase.
+Caso contrário, retorna a string original sem alterações) de forma a que o teste passe:
+	/**
+	 * Week 1 exercise of TDD course. 
+	 * 
+	 * @see https://www.coursera.org/learn/tdd-desenvolvimento-de-software-guiado-por-testes/peer/Hgrqt/quebra-de-strings-com-camelcase
+	 * 
+	 * @author ruimonteiro
+	 */
+	public class CamelCase {
+		
+		...
+		
+		/**
+		 * @param input the input word
+		 * @return  a list of words as the result of splitting the input word by CamelCase
+		 */
+		private static List<String> getCamelCaseWords(final String input) {
+			final List<String> result = new ArrayList<>();
+			String inputToAdd = input;
+			for (Character character : input.toCharArray()) {
+				if(Character.isLowerCase(character)) {
+					inputToAdd = input.toLowerCase();
+					break;
+				}
+			}
+			result.add(inputToAdd);
+			return result;
+		}
+	}
+
+37º passo:
+Corrido o teste e verificado que passou
+
+38º passo:
+Adicionado o teste testInputStringTwoWordsInLowerCamelCase:
+	 /**
+     * Test input string two words in lowerCamelCase
+     */
+    public void testInputStringTwoWordsInLowerCamelCase() {
+		final List<String> result = CamelCase.converterCamelCase("nomeComposto");
+    	assertEquals(2,result.size());
+    	assertEquals("nome", result.get(0));
+    	assertEquals("composto", result.get(1));
+    }
+
+39º passo:
+Corrido o test junit e verificado que falhou
+
+40º passo:
+Refactorizado o código (alterado o método getCamelCaseWords para chamar um novo método splitWordsByCamelCase. Este método parte a string por CamelCase,
+recorrendo a uma expressão regular. Depois cada palavra é convertida em LowerCase se tiver pelo menos um caracter em LowerCase) de forma a que o teste passe:
+/**
+	 * Week 1 exercise of TDD course. 
+	 * 
+	 * @see https://www.coursera.org/learn/tdd-desenvolvimento-de-software-guiado-por-testes/peer/Hgrqt/quebra-de-strings-com-camelcase
+	 * 
+	 * @author ruimonteiro
+	 */
+	public class CamelCase {
+		
+		...
+		
+		private static final String CAMEL_CASE_REGEX = "(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])|(?=[A-Z][a-z])";
+		
+		...
+		
+		/**
+		 * @param input the input word
+		 * @return  a list of words as the result of splitting the input word by CamelCase
+		 */
+		private static List<String> getCamelCaseWords(final String input) {
+			final String[] words = splitWordsByCamelCase(input);
+			final List<String> result = new ArrayList<>();
+			for (String word : words) {
+				result.add(word);
+			}
+			return result;
+		}
+		
+		/**
+		 * @param input the input word
+		 * @return an array of words as the result of splitting the input word by CamelCase
+		 */
+		private static String[] splitWordsByCamelCase(final String input) {
+			return input.split(CAMEL_CASE_REGEX);
+		}
+		
+		/**
+		 * @param input the input word
+		 * @return the input word in LowerCase if it has one character in LowerCase. Otherwise, returns the input word without changes
+		 */
+		private static String capitalizeWord(final String input) {
+			for (Character character : input.toCharArray()) {
+				if(Character.isLowerCase(character)) {
+					return input.toLowerCase();
+				}
+			}
+			return input;
+		}
+	}
+
+
+41º passo:
+Corrido o teste e verificado que passou
+
+42º passo:
+Adicionado o teste testInputStringTwoWordsAndNumbers:
+ 	/**
+     * Test input string two words and numbers
+     */
+    public void testInputStringTwoWordsAndNumbers() {
+		final List<String> result = CamelCase.converterCamelCase("recupera10Primeiros");
+    	assertEquals(3,result.size());
+    	assertEquals("recupera", result.get(0));
+    	assertEquals("10", result.get(1));
+    	assertEquals("primeiros", result.get(2));
+    }
+ 
+43º passo:
+Corrido o test junit e verificado que falhou
+
+44º passo:
+Refactorizado o código (alterada a expressão regular para partir a string tendo em conta números) de forma a que o teste passe:
+	/**
+	 * Week 1 exercise of TDD course. 
+	 * 
+	 * @see https://www.coursera.org/learn/tdd-desenvolvimento-de-software-guiado-por-testes/peer/Hgrqt/quebra-de-strings-com-camelcase
+	 * 
+	 * @author ruimonteiro
+	 */
+	public class CamelCase {
+		
+		...
+		
+		private static final String CAMEL_CASE_REGEX = "(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])|(?=[A-Z][a-z])|(?<=\\d)(?=\\D)|(?=\\d)(?<=\\D)";
+		
+		...
+	
+	}
+
+45º passo:
+Corrido o teste e verificado que passou
+
+46º passo:
+Adicionado o teste testInputStringTwoWordsInUpperCamelCase:
+	/**
+     * Test input string two words in upperCamelCase
+     */
+    public void testInputStringTwoWordsInUpperCamelCase() {
+		final List<String> result = CamelCase.converterCamelCase("NomeComposto");
+    	assertEquals(2,result.size());
+    	assertEquals("nome", result.get(0));
+    	assertEquals("composto", result.get(1));
+    }
+
+
+48º passo:
+Corrido o test junit e neste caso passou porque já cobria este caso
+
+49º passo:
+Adicionado o teste testInputStringTwoWordsOneInUppercase:
+	/**
+     * Test input string two words, one in uppercase
+     */
+    public void testInputStringTwoWordsOneInUppercase() {
+		final List<String> result = CamelCase.converterCamelCase("numeroCPF");
+    	assertEquals(2,result.size());
+    	assertEquals("numero", result.get(0));
+    	assertEquals("CPF", result.get(1));
+    }
+
+
+50º passo:
+Corrido o test junit e neste caso passou porque já cobria este caso
+
+51º passo:
+Adicionado o teste testInputStringThreeWordsOneInUppercase:
+ 	/**
+     * Test input string three words, one in uppercase
+     */
+    public void testInputStringThreeWordsOneInUppercase() {
+		final List<String> result = CamelCase.converterCamelCase("numeroCPFContribuinte");
+    	assertEquals(3,result.size());
+    	assertEquals("numero", result.get(0));
+    	assertEquals("CPF", result.get(1));
+    	assertEquals("contribuinte", result.get(2));
+    }
+
+52º passo:
+Corrido o test junit e neste caso passou porque já cobria este caso
+	
